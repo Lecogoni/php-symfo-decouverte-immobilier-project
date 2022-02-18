@@ -20,7 +20,7 @@ class PropertyController extends AbstractController
   }
 
   #[Route('/property', name: 'property')]
-  public function index(ManagerRegistry $doctrine): Response
+  public function test(ManagerRegistry $doctrine): Response
   {
     // $property = new Property();
     // $property->setTitle('Mon premier bien')
@@ -52,15 +52,21 @@ class PropertyController extends AbstractController
     ]);
   }
 
-
-
-
   #[Route('/property/show/{id}', name: 'property.show')]
   public function show($id): Response
   {
     $property = $this->repository->find($id);
     return $this->render('property/show.html.twig', [
       'property' => $property
+    ]);
+  }
+
+  #[Route('/properties', name: 'property.index')]
+  public function index(): Response
+  {
+    $properties = $this->repository->findAll();
+    return $this->render('property/index.html.twig', [
+      'properties' => $properties
     ]);
   }
 }

@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[UniqueEntity('title')]
 class Property
 {
 
@@ -23,27 +26,34 @@ class Property
   private $id;
 
   #[ORM\Column(type: 'string', length: 255)]
+  #[Assert\NotBlank]
+  #[Assert\Length(min: 5, max: 50)]
   private $title;
 
   #[ORM\Column(type: 'text', nullable: true)]
   private $description;
 
   #[ORM\Column(type: 'integer')]
+  #[Assert\Positive]
   private $surface;
 
   #[ORM\Column(type: 'integer')]
+  #[Assert\Range(min: 1, max: 20)]
   private $rooms;
 
   #[ORM\Column(type: 'integer')]
+  #[Assert\Positive]
   private $bedrooms;
 
   #[ORM\Column(type: 'integer')]
   private $floor;
 
   #[ORM\Column(type: 'integer')]
+  #[Assert\NotBlank]
   private $price;
 
   #[ORM\Column(type: 'integer')]
+  //#[Assert\Choice(choices: Property::HEAT, message: 'Choose a valid genre.')]
   private $heat;
 
   #[ORM\Column(type: 'string', length: 255)]
@@ -57,6 +67,10 @@ class Property
 
   #[ORM\Column(type: 'datetime_immutable')]
   private $created_at;
+
+  #[ORM\Column(type: 'string', length: 255)]
+  #[Assert\Regex('/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/')]
+  private $postal_code;
 
   /**
    * 
@@ -182,7 +196,7 @@ class Property
     return $this;
   }
 
-  public function getheatType():string
+  public function getheatType(): string
   {
     return self::HEAT[$this->heat];
   }
@@ -231,6 +245,18 @@ class Property
   public function setCreatedAt(\DateTimeImmutable $created_at): self
   {
     $this->created_at = $created_at;
+
+    return $this;
+  }
+
+  public function getPostalCode(): ?string
+  {
+    return $this->postal_code;
+  }
+
+  public function setPostalCode(string $postal_code): self
+  {
+    $this->postal_code = $postal_code;
 
     return $this;
   }

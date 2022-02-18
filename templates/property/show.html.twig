@@ -3,7 +3,7 @@
 {% block title property.title %}
 
 {% block body %}
-	<div class="jumbotron" style="background-color: grey;">
+	<div class="jumbotron txt-center p-4" style="background-color: grey;">
 		<div class="container">
 			<div class="row">
 
@@ -18,15 +18,16 @@
 					<div>{{property.getFormattedPrice}}</div>
 					<a href="#">Contacter l'agence</a>
 				</div>
-				<p>
-					{{ property.description | nl2br }}
-				</p>
 			</div>
 		</div>
 	</div>
 
 
 	<div class="container mt-4">
+
+		<p>
+			{{ property.description | nl2br }}
+		</p>
 
 		<div class="row">
 
