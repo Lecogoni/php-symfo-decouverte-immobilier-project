@@ -11,3 +11,11 @@ Project découverte de Symfo
 # PACKAGIST
 
 - cocur/slugify
+
+
+# USE OF ...
+
+
+- use of Fixtures and Faker to populate the db
+- use of Sf UserPasswordHasherInterface to encrypt password
+- set pagination with KnpLabs / KnpPaginatorBundle `https://github.com/KnpLabs/KnpPaginatorBundle`

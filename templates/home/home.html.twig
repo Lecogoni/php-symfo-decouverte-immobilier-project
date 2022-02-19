@@ -34,6 +34,11 @@
 					<a href="{{ '/var/www/html/immo_project/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a>
 				</code>
 			</li>
+      {% if app.user %}
+        <li>
+          user connecté
+        </li>
+      {% endif %}
 		</ul>
 	</div>
 

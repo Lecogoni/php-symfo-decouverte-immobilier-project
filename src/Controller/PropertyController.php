@@ -7,7 +7,9 @@ use App\Repository\PropertyRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 class PropertyController extends AbstractController
 {
@@ -62,11 +64,33 @@ class PropertyController extends AbstractController
   }
 
   #[Route('/properties', name: 'property.index')]
-  public function index(): Response
+  public function index(PaginatorInterface $paginator, Request $request): Response
   {
-    $properties = $this->repository->findAll();
+
+
+    // parameters to template
+    //return $this->render('article/list.html.twig', []);
+
+
+
+    $properties = $paginator->paginate(
+      $this->repository->findAllInSell(),
+      $request->query->getInt('page', 1), /*page number*/
+      12
+    );
+    
+    
     return $this->render('property/index.html.twig', [
-      'properties' => $properties
-    ]);
+      'properties' => $properties,
+      'pagination' => '@KnpPaginator/Pagination/sliding.html.twig',     
+      'sortable' => '@KnpPaginator/Pagination/sortable_link.html.twig',
+      'filtration' => '@KnpPaginator/Pagination/filtration.html.twig'   
+  ]);
   }
+
+  // créer une entity qui va eprésenter notre recherche nbre de piece/ prix max
+  // crée un formulaire
+  // gérer le traitement dans le controler
+  // passafge du result a la pagination
+
 }

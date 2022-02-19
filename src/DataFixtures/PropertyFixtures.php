@@ -14,10 +14,10 @@ class PropertyFixtures extends Fixture
 
       $faker = Faker\Factory::create('fr_FR');
 
-      for ($i = 0; $i < 10; $i++) {
+      for ($i = 0; $i < 100; $i++) {
         $property = new Property();
-        $property->setTitle('mon bien ' . $faker->word . ' ' . $i);
-        $property->setDescription('desription de mon bien ' .  $i);
+        $property->setTitle('mon bien ' . $faker->word(3, $asText = true) . ' ' . $i);;
+        $property->setDescription('mon bien ' . $faker->word(3, $asText = true). ' ' . $i);
         $property->setSurface(mt_rand(10, 100));
         $property->setRooms(mt_rand(1, 10));
         $property->setBedrooms(mt_rand(1, 8));

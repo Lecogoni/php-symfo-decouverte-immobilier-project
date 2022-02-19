@@ -15,11 +15,19 @@
 								<a href="{{ path('property.show', {id: property.id, slug: property.slug}) }}">{{ property.title }}</a>
 							</h5>
 							<p class="card-text">{{ property.city }}</p>
+							<p class="card-text">
+								{{ property.getPostalCode() }}</p>
 							<div class="text-primary">{{ property.getFormattedPrice}}</div>
 						</div>
 					</div>
 				</div>
 			{% endfor %}
 		</div>
+
+
+		<div class="pagination">
+			{{ knp_pagination_render(properties) }}
+		</div>
+
 	</div>
 {% endblock %}
