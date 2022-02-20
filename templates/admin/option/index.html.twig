@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Gérer les options' %}
+
+{% block body %}
+	<div class="container mt-4">
+		<H1>Gérer les options</H1>
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">{{ message }}</div>
+		{% endfor %}
+
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Nom</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for option in options %}
+					<tr>
+						<th>{{option.name}}</th>
+						<th>
+							<a class="btn btn-info" href="{{ path('admin.option.edit', {'id': option.id}) }}">Editer</a>
+							<a class="btn btn-danger" href="{{ path('admin.option.delete', {'id': option.id}) }}" onclick="return confirm('are u sure?')">Supprimer</a>
+						</th>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="">
+			<a class="btn btn-info" href="{{ path('admin.option.new') }}">Nouvelle option</a>
+		</div>
+
+	</div>
+{% endblock %}

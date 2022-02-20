@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PropertyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use DateTime;
@@ -72,12 +74,16 @@ class Property
   #[Assert\Regex('/^(?:0[1-9]|[1-8]\d|9[0-8])\d{3}$/')]
   private $postal_code;
 
+  #[ORM\ManyToMany(targetEntity: Option::class, inversedBy: 'properties')]
+  private $options;
+
   /**
    * 
    */
   public function __construct()
   {
     $this->created_at = new \DateTimeImmutable();
+    $this->options = new ArrayCollection();
   }
 
   public function getId(): ?int
@@ -259,6 +265,33 @@ class Property
     $this->postal_code = $postal_code;
 
     return $this;
+  }
+
+  /**
+   * @return Collection<int, Option>
+   */
+  public function getOptions(): Collection
+  {
+      return $this->options;
+  }
+
+  public function addOption(Option $option): self
+  {
+      if (!$this->options->contains($option)) {
+          $this->options[] = $option;
+          $option->addProperty($this);
+      }
+
+      return $this;
+  }
+
+  public function removeOption(Option $option): self
+  {
+      if ($this->options->removeElement($option)) {
+          $option->removeProperty($this);
+      }
+
+      return $this;
   }
 
 }

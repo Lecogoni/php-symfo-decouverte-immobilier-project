@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title 'Nouvelle option' %}
+
+{% block body %}
+	<div class="container mt-4">
+		<H1>Créer une nouvelle option</H1>
+		{{ include('admin/option/_form.html.twig', {form: form, button: 'Enregistrer'}) }}
+	</div>
+
+{% endblock %}
+ 

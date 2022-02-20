@@ -16,6 +16,19 @@
 	<div class="col-md-4">{{ form_row(form.postal_code) }}</div>
 	<div class="col-md-5">{{ form_row(form.sold) }}</div>
 </div>
-{{ form_widget(form)}}
+<div class="row">
+	<div class="col-md-6">
+		{{ form_label(form.description) }}
+		<div class="form-error">
+			{{ form_errors(form.description) }}
+		</div>
+		{{ form_widget(form.description) }}
+		<small>{{ form_help(form.description) }}</small>
+	</div>
+	<div class="col-md-6">
+		{{ form_row(form.options) }}
+	</div>
+</div>
+{{ form_rest(form)}}
 <button class="btn btn-primary">{{ button|default('Créer') }}</button>
 {{ form_end(form)}}
