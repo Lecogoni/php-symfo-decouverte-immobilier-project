@@ -2,55 +2,48 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class PropertySearch
 {
 
   /**
    * @var int|null
    */
+  #[Assert\Type('int')]
+  #[Assert\GreaterThan(30000)]
   private $maxPrice;
 
   /**
    * @var int|null
    */
+  #[Assert\Type('int')]
+  #[Assert\Range(min: 10, max: 200)]
   private $minSurface;
 
-  /**
-   * @Route("Route", name="RouteName")
-   */
-  public function getMaxPrice(): int
-  {
-      return $this->maxPrice;
 
-  }
-  
-  /**
-   * @Route("Route", name="RouteName")
-   */
-  public function setMaxPrice(int $maxPrice): PropertySearch
+  public function getMaxPrice(): int|null
   {
-      return $this->maxPrice = $maxPrice;
-      return $this;
-  }
-
-  /**
-   * @Route("Route", name="RouteName")
-   */
-  public function getMinSurface(): int
-  {
-      return $this->minSurface;
-
-  }
-  
-  /**
-   * @Route("Route", name="RouteName")
-   */
-  public function setMinSurface(int $minSurface): PropertySearch
-  {
-      return $this->minSurface = $minSurface;
-      return $this;
+    return $this->maxPrice;
   }
 
 
+  public function setMaxPrice(int $maxPrice)
+  {
+    return $this->maxPrice = $maxPrice;
+    return $this;
+  }
 
+
+  public function getMinSurface(): int|null
+  {
+    return $this->minSurface;
+  }
+
+
+  public function setMinSurface(int $minSurface)
+  {
+    return $this->minSurface = $minSurface;
+    return $this;
+  }
 }

@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Property;
+use App\Entity\PropertySearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Query\QueryBuilder;
+use Doctrine\ORM\Query as Query;
 use Doctrine\ORM\QueryBuilder as ORMQueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,13 +25,28 @@ class PropertyRepository extends ServiceEntityRepository
 
 
   /**
-   * return all propertis in sell
+   * Take a PropertySearch as params
+   * return a query - all propertis in sell with firter from PropertySearch applied
    */
-  public function findAllInSell(): array
+  public function findAllInSell(PropertySearch $search): Query
   {
-    return $this->findAllNotSold()
-      ->getQuery()
-      ->getResult();
+
+    # on défini notre query
+    $query = $this->findAllNotSold();
+
+    if ($search->getMaxPrice()) {
+      $query = $query
+        ->andWhere('p.price <= :maxprice')
+        ->setParameter('maxprice', $search->getMaxPrice());
+    }
+
+    if ($search->getMinSurface()) {
+      $query = $query
+        ->andWhere('p.surface >= :minsurface')
+        ->setParameter('minsurface', $search->getMinSurface());
+    }
+
+    return $query->getQuery();
   }
 
 
